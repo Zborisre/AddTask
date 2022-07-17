@@ -15,6 +15,7 @@ public class Bot : MonoBehaviour
     GameObject targetobj;
 
     public GameObject[] Active;
+    private int cooldown = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +50,19 @@ public class Bot : MonoBehaviour
         float Mesto = Vector3.Distance(transform.position, targetobj.transform.position);
 
         NavAgent.SetDestination(targetobj.transform.position);
-        if (Mesto <= NavAgent.stoppingDistance)
+        if (Mesto <= NavAgent.stoppingDistance && cooldown == 0)
         {
             ClosetObject().GetComponent<DamagableObject>().Attack(Damage);
+            cooldown = 2;
+            StartCoroutine(DamageCooldown());
         }
+    }
+
+    IEnumerator DamageCooldown()
+    {
+        yield return new WaitForSeconds(cooldown);
+
+        cooldown = 0;
+        StopCoroutine(DamageCooldown());
     }
 }
