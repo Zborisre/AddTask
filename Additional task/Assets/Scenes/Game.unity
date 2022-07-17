@@ -1281,6 +1281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1591024643}
   - component: {fileID: 1591024642}
+  - component: {fileID: 1591024644}
   m_Layer: 0
   m_Name: Instances
   m_TagString: Untagged
@@ -1302,6 +1303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColOfPool: 20
   TargedPre: {fileID: 7677018099884317987, guid: bed8ef6ac25234046a43c10e9b428e16, type: 3}
+  BotPre: {fileID: 1954997055778867216, guid: 5825ddf3b576bfd47a86c6eea6f7eac7, type: 3}
   ColObjects: 3
 --- !u!4 &1591024643
 Transform:
@@ -1318,6 +1320,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1591024644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591024640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4478d89be96ba44ebfab5b62a6fe2fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
 --- !u!1 &1657834101
 GameObject:
   m_ObjectHideFlags: 0

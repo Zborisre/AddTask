@@ -4,25 +4,31 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public int ColObjects = 3;
+
+    [SerializeField]private Camera cam;
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < ColObjects; i++)
-        {
-            GameObject bullet = ObjectPooler.instance.SpawnTarget();
-            if (bullet != null)
-            {
-                bullet.transform.position = new Vector3(Random.Range(0, 5), 0, Random.Range(0, 5));
-                bullet.transform.rotation = transform.rotation;
-                bullet.SetActive(true);
-            }
-        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(ray, out RaycastHit raycastHit))
+            {
+                GameObject bot = ObjectPooler.instance.SpawnBot();
+                if (bot != null)
+                {
+                    bot.transform.position = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
+                    bot.transform.rotation = transform.rotation;
+                    bot.SetActive(true);
+                }
+                Debug.Log("X " + raycastHit.point.x + " Z " + raycastHit.point.z + " Pos " + raycastHit.point);
+            }
+        }
     }
 }
