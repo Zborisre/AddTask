@@ -11,14 +11,14 @@ public class Bot : MonoBehaviour
 
     NavMeshAgent NavAgent;
 
-    GameObject[] DamagableObjects;
     GameObject closest;
-    Transform target;
+    GameObject targetobj;
+
+    public GameObject[] Active;
 
     // Start is called before the first frame update
     void Start()
     {
-        DamagableObjects = GameObject.FindGameObjectsWithTag("Damagable");
         NavAgent = GetComponent<NavMeshAgent>();
         NavAgent.speed = Speed + Random.Range(0.5f, 1.5f);
 
@@ -28,11 +28,12 @@ public class Bot : MonoBehaviour
     {
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        foreach (GameObject go in DamagableObjects)
+
+        foreach (GameObject go in ObjectPooler.poolObjectsTarget)
         {
             Vector3 diff = go.transform.position - position;
             float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            if (curDistance < distance && go.active)
             {
                 closest = go;
                 distance = curDistance;
@@ -44,10 +45,10 @@ public class Bot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target = ClosetObject().transform;
-        float Mesto = Vector3.Distance(transform.position, target.position);
+        targetobj = ClosetObject();
+        float Mesto = Vector3.Distance(transform.position, targetobj.transform.position);
 
-        NavAgent.SetDestination(target.position);
+        NavAgent.SetDestination(targetobj.transform.position);
         if (Mesto <= NavAgent.stoppingDistance)
         {
             ClosetObject().GetComponent<DamagableObject>().Attack(Damage);
