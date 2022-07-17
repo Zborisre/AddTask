@@ -1,26 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DamagableObject : MonoBehaviour
 {
+    public int ColOfDead = 0;
     public int HealthNum = 10;
     private int Health;
+
+    public Text CountOfDead;
 
     public Image HealthBar;
     private float fill;
 
-    // Start is called before the first frame update
+    [SerializeField] private GameObject canvas;
+
+    private Quaternion rotationToCamera;
+
+    // Старт, назначение здоровья, поля заполнения и напраления камеры
     void Start()
     {
+        rotationToCamera = Camera.main.transform.rotation;
         fill = 1f;
         Health = HealthNum;
     }
 
-    // Update is called once per frame
+    // Поворот канваса к камере, функция если HP <= 0 и показ его на изображении
     void Update()
     {
+        if (canvas.transform.rotation != rotationToCamera)
+        {
+            canvas.transform.rotation = rotationToCamera;
+        }
         HealthBar.fillAmount = fill;
         if (Health <= 0)
         {
@@ -28,14 +38,18 @@ public class DamagableObject : MonoBehaviour
         }
     }
 
+    // Функция получения урона
     public void Attack(int Damage)
     {
         Health = Health - Damage;
         fill = (float)Health / HealthNum;
     }
 
+    // Функция смерти, создание нового объекта в рандомных координатах, отключение данного объекта, и показ текста, количества смертей
     private void Death()
     {
+        ColOfDead += 1;
+        CountOfDead.text = (" " + ColOfDead.ToString());
         fill = 1f;
         gameObject.SetActive(false);
         Health = HealthNum;

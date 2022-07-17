@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -12,13 +11,32 @@ public class Spawner : MonoBehaviour
     {
         StartCoroutine(SpawnCooldown());
     }
-
-    // Update is called once per frame
+    // Происходит спавн объектов по нажатию на поверхность
     void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(ray, out RaycastHit raycastHit))
+            {
+                GameObject bot = ObjectPooler.instance.SpawnBot();
+                if (bot != null)
+                {
+                    bot.transform.position = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
+                    bot.transform.rotation = transform.rotation;
+                    bot.SetActive(true);
+                }
+                Debug.Log("X " + raycastHit.point.x + " Z " + raycastHit.point.z + " Pos " + raycastHit.point);
+            }
+        }
+    }
+
+    // Происходит спавн объектов при кулдауне равном 0, сделано для того, чтобы пул объектов успел создать клонов по префабам
+    void SpawnObjects()
     {
         if (cooldown == 0)
         {
-            cooldown = 3;
+            cooldown = 0.1f;
             for (int i = 0; i < 3; i++)
             {
                 GameObject bullet = ObjectPooler.instance.SpawnTarget();
@@ -40,28 +58,15 @@ public class Spawner : MonoBehaviour
                 }
             }
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit raycastHit))
-            {
-                GameObject bot = ObjectPooler.instance.SpawnBot();
-                if (bot != null)
-                {
-                    bot.transform.position = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
-                    bot.transform.rotation = transform.rotation;
-                    bot.SetActive(true);
-                }
-                Debug.Log("X " + raycastHit.point.x + " Z " + raycastHit.point.z + " Pos " + raycastHit.point);
-            }
-        }
     }
 
+    // Корутина при первоначальном спавне
     IEnumerator SpawnCooldown()
     {
         yield return new WaitForSeconds(cooldown);
 
         cooldown = 0;
         StopCoroutine(SpawnCooldown());
+        SpawnObjects();
     }
 }

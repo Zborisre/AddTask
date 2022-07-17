@@ -17,7 +17,7 @@ public class Bot : MonoBehaviour
     public GameObject[] Active;
     private int cooldown = 0;
 
-    // Start is called before the first frame update
+    // Назначение навигационного агента, и передача полученной скорости
     void Start()
     {
         NavAgent = GetComponent<NavMeshAgent>();
@@ -25,6 +25,7 @@ public class Bot : MonoBehaviour
 
     }
 
+    // Получение местоположения ближайщего объекта
     GameObject ClosetObject()
     {
         float distance = Mathf.Infinity;
@@ -43,7 +44,7 @@ public class Bot : MonoBehaviour
         return closest;
     }
 
-    // Update is called once per frame
+    // Направление к ближайщему объекту и нанесение урона если дистанция оставноки меньше или равно позиции
     void Update()
     {
         targetobj = ClosetObject();
@@ -58,6 +59,7 @@ public class Bot : MonoBehaviour
         }
     }
 
+    // Корутина обновления ударов
     IEnumerator DamageCooldown()
     {
         yield return new WaitForSeconds(cooldown);

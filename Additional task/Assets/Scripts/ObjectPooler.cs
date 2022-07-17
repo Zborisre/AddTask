@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ public class ObjectPooler : MonoBehaviour
     void Start()
     {
 
-        for (int i = 0; i < ColOfPool - 16; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject obj = Instantiate(TargedPre);
             obj.SetActive(false);
