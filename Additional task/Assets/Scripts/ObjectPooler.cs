@@ -15,8 +15,6 @@ public class ObjectPooler : MonoBehaviour
     [SerializeField] private GameObject TargedPre;
     [SerializeField] private GameObject BotPre;
 
-    public int ColObjects = 3;
-
     private void Awake()
     {
         if (instance == null)
@@ -40,19 +38,6 @@ public class ObjectPooler : MonoBehaviour
             GameObject obj = Instantiate(BotPre);
             obj.SetActive(false);
             poolObjectsBot.Add(obj);
-        }
-
-
-
-        for (int i = 0; i < ColObjects; i++)
-        {
-            GameObject bullet = ObjectPooler.instance.SpawnTarget();
-            if (bullet != null)
-            {
-                bullet.transform.position = new Vector3(Random.Range(-23, 24), 0, Random.Range(-23, 24));
-                bullet.transform.rotation = transform.rotation;
-                bullet.SetActive(true);
-            }
         }
     }
 
